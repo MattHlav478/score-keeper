@@ -40,18 +40,20 @@ export default function Setup() {
         </button>
       </div>
       <div className="flex flex-col">
-        <div>Players:</div>
+        {players.length >= 1 && <div>Players:</div>}
         {players.map((player, i) => (
           <div className="flex flex-row w-100 justify-between">
             <div>{player}</div>
             <button>Remove Player</button>
           </div>
         ))}
-        <Link to="/scoreboard">
-          <button className="bg-blue-500 text-white p-2 mt-24">
-            Start Game
-          </button>
-        </Link>
+        {players.length >= 1 && (
+          <Link to="/scoreboard">
+            <button className="bg-blue-500 text-white p-2 mt-24">
+              Start Game
+            </button>
+          </Link>
+        )}
       </div>
     </div>
   );
