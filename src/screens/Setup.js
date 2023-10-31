@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 export default function Setup() {
   const [playerName, setPlayerName] = useState("");
   const [players, setPlayers] = useState([]);
+  const [alertPlayerNameError, setAlertPlayerNameError] = useState(false);
 
   let gameDetails = {
     gameName: "",
@@ -12,13 +13,20 @@ export default function Setup() {
   };
 
   function handleChange(event) {
+    if (alertPlayerNameError) {
+      setAlertPlayerNameError(false);
+    }
     setPlayerName(event.target.value);
   }
 
   function addPlayer(event) {
-    setPlayers([...players, playerName]);
-    console.log(players);
-    setPlayerName("");
+    if (playerName == "") {
+      setAlertPlayerNameError(true);
+    } else {
+      setPlayers([...players, playerName]);
+      console.log(players);
+      setPlayerName("");
+    }
   }
 
   return (
@@ -35,6 +43,7 @@ export default function Setup() {
           className="bg-blue-100 border-2 border-solid border-blue-500 mb-4 p-2"
           placeholder="Player Name"
         />
+        {alertPlayerNameError && <div className="text-red-500">Player name cannot be blank</div>}
         <button className="bg-blue-500 text-white p-2" onClick={addPlayer}>
           Add Player
         </button>
