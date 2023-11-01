@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Setup() {
+export default function Setup({ players, setPlayers }) {
   const [playerName, setPlayerName] = useState("");
-  const [players, setPlayers] = useState([]);
   const [alertPlayerNameError, setAlertPlayerNameError] = useState(false);
 
   let gameDetails = {
@@ -23,46 +22,75 @@ export default function Setup() {
     if (playerName == "") {
       setAlertPlayerNameError(true);
     } else {
-      setPlayers([...players, playerName]);
+      let newPlayer = {
+        name: playerName,
+        scores: [],
+      };
+      setPlayers([...players, newPlayer]);
       console.log(players);
       setPlayerName("");
     }
   }
 
+  function removePlayer(index) {
+    setPlayers(players.filter((_, i) => i !== index));
+  }
+
   return (
-    <div className="m-2">
-      <div className="mx-auto w-100 bg-red-100">Game Setup</div>
-      <div className="flex flex-col mb-6">
-        <div className="p-2">Player 1</div>
+    <div className="flex flex-col m-2 h-screen text-lg">
+      <div className="self-center p-4 text-2xl">Game Setup</div>
+      <div className="flex flex-col h-28 p-4">
+        <div className="py-2">Enter Player Name:</div>
         <input
           type="text"
           id="player-name"
           name="player-name"
           value={playerName}
           onChange={handleChange}
-          className="bg-blue-100 border-2 border-solid border-blue-500 mb-4 p-2"
+          className="bg-gray-200 border-2 border-solid rounded-lg border-violet-600 p-2"
           placeholder="Player Name"
         />
-        {alertPlayerNameError && <div className="text-red-500">Player name cannot be blank</div>}
-        <button className="bg-blue-500 text-white p-2" onClick={addPlayer}>
+        {alertPlayerNameError && (
+          <div className="text-red-500">Player name cannot be blank</div>
+        )}
+      </div>
+      <div className="flex flex-row justify-around">
+        <button
+          className="bg-violet-600 font-bold rounded-lg w-36 p-2 mt-4"
+          onClick={addPlayer}
+        >
           Add Player
         </button>
+        <Link to="/scoreboard">
+          <button className="bg-violet-600 font-bold rounded-lg w-36 p-2 mt-4">
+            Start Game
+          </button>
+        </Link>
       </div>
-      <div className="flex flex-col">
-        {players.length >= 1 && <div>Players:</div>}
+      <div className="flex flex-col h-1/2 p-4">
+        {players.length >= 1 && (
+          <div className="text-xl font-bold border-b-2 border-violet-500">
+            Players:
+          </div>
+        )}
         {players.map((player, i) => (
-          <div className="flex flex-row w-100 justify-between">
-            <div>{player}</div>
-            <button>Remove Player</button>
+          <div
+            key={i}
+            className="flex flex-row w-full justify-between border-b-2 border-violet-500"
+          >
+            <div className="flex flex-row justify-between">
+              <div className="self-center pr-4">{i + 1} )</div>
+              <div className="self-center">{player.name}</div>
+            </div>
+
+            <button
+              className="p-2 my-2 bg-violet-800 rounded-lg"
+              onClick={() => removePlayer(i)}
+            >
+              Remove
+            </button>
           </div>
         ))}
-        {players.length >= 1 && (
-          <Link to="/scoreboard">
-            <button className="bg-blue-500 text-white p-2 mt-24">
-              Start Game
-            </button>
-          </Link>
-        )}
       </div>
     </div>
   );
