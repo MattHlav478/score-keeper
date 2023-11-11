@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function Scorekeeper({players}) {
+export default function Scorekeeper({ players }) {
   const [round, setRound] = useState(1);
   const [scores, setScores] = useState({});
 
@@ -20,32 +20,30 @@ export default function Scorekeeper({players}) {
   };
 
   return (
-    <div>
-      <table>
-        <thead>
+    <div className="m-2 h-screen text-lg">
+      <table className="width-full">
+        <tr>
+          <th>Player</th>
+          <th>Round Score</th>
+          <th>Total Score</th>
+        </tr>
+        {players.map((player, i) => (
           <tr>
-            <th className="">Round {round}</th>
-            {players.map((player, i) => (
-              <th key={i}>{player.name}</th>
-            ))}
+            {" "}
+            <td className="w-1/3">{player.name}</td>
+            <td>
+              <input className="w-16"></input>
+            </td>
+            <td>{player.score}</td>
           </tr>
-        </thead>
-        <tbody>
-          <tr>
-            {players.map((player, i) => (
-              <td key={i}>
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    handleScoreInputChange(player, round, e.target.value)
-                  }
-                />
-              </td>
-            ))}
-          </tr>
-        </tbody>
+        ))}
       </table>
-      <button onClick={handleRoundSubmit}>Submit Round</button>
+      <button
+        className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-600 border-2 border-white "
+        onClick={handleRoundSubmit}
+      >
+        Submit Round
+      </button>
     </div>
   );
 }

@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 
 export default function Setup({ players, setPlayers }) {
   const [playerName, setPlayerName] = useState("");
-    const [alertPlayerNameError, setAlertPlayerNameError] = useState(false);
+  const [alertPlayerNameError, setAlertPlayerNameError] = useState(false);
 
   const [gameName, setGameName] = useState("");
-    const [alertGameNameError, setAlertGameNameError] = useState(false);
-
+  const [alertGameNameError, setAlertGameNameError] = useState(false);
 
   let gameDetails = {
     gameName: gameName,
@@ -15,7 +14,7 @@ export default function Setup({ players, setPlayers }) {
     totalPlayers: players,
   };
 
-   function handleGameNameChange(event) {
+  function handleGameNameChange(event) {
     if (alertGameNameError) {
       setAlertGameNameError(false);
     }
@@ -65,11 +64,11 @@ export default function Setup({ players, setPlayers }) {
         )}
       </div>
       <button
-          className="bg-violet-600 self-center font-bold rounded-lg w-36 p-2 mt-4"
-          onClick={addPlayer}
-        >
-          Submit
-        </button>
+        className="bg-violet-600 self-center font-bold rounded-lg w-36 p-2 mt-4"
+        onClick={addPlayer}
+      >
+        Submit
+      </button>
       <div className="flex flex-col h-28 p-4">
         <div className="py-2">Enter Player Name:</div>
         <input
@@ -85,14 +84,14 @@ export default function Setup({ players, setPlayers }) {
           <div className="text-red-500">Player name cannot be blank</div>
         )}
       </div>
-        <button
-          className="bg-violet-600 self-center font-bold rounded-lg w-36 p-2 mt-4"
-          onClick={addPlayer}
-        >
-          Add Player
-        </button>
-        
-      <div className="flex flex-col h-1/2 p-4">
+      <button
+        className="bg-violet-600 self-center font-bold rounded-lg w-36 p-2 mt-4"
+        onClick={addPlayer}
+      >
+        Add Player
+      </button>
+
+      <div className="flex flex-col p-4">
         {players.length >= 1 && (
           <div className="text-xl font-bold border-b-2 border-violet-500">
             Players:
@@ -117,11 +116,13 @@ export default function Setup({ players, setPlayers }) {
           </div>
         ))}
       </div>
-      <Link to="/scoreboard">
-          <button className="bg-violet-600 font-bold rounded-lg w-36 p-2 mt-4">
+      <div className="mx-auto">
+        <Link to="/scoreboard">
+          <button className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-600 border-2 border-white ">
             Start Game
           </button>
         </Link>
+      </div>
     </div>
   );
 }
