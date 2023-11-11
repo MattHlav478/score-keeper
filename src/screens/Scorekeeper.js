@@ -1,20 +1,8 @@
 import React, { useState } from "react";
 
-export default function Scorekeeper() {
-  const [players, setPlayers] = useState([]);
+export default function Scorekeeper({players}) {
   const [round, setRound] = useState(1);
   const [scores, setScores] = useState({});
-
-  const handleAddPlayer = () => {
-    const playerName = prompt("Enter player name:");
-    if (playerName) {
-      setPlayers([...players, playerName]);
-      setScores((prevScores) => ({
-        ...prevScores,
-        [playerName]: [],
-      }));
-    }
-  };
 
   const handleScoreInputChange = (player, round, score) => {
     const updatedScores = { ...scores };
@@ -36,19 +24,18 @@ export default function Scorekeeper() {
       <table>
         <thead>
           <tr>
-                      <th className="">Round {round}</th>
-            {players.map((player) => (
-              <th key={player}>{player}</th>
+            <th className="">Round {round}</th>
+            {players.map((player, i) => (
+              <th key={i}>{player.name}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           <tr>
-            {players.map((player) => (
-              <td key={player}>
+            {players.map((player, i) => (
+              <td key={i}>
                 <input
                   type="number"
-                  value={scores[player][round - 1] || ""}
                   onChange={(e) =>
                     handleScoreInputChange(player, round, e.target.value)
                   }
@@ -57,8 +44,7 @@ export default function Scorekeeper() {
             ))}
           </tr>
         </tbody>
-          </table>
-      <button onClick={handleAddPlayer}>Add Player</button>
+      </table>
       <button onClick={handleRoundSubmit}>Submit Round</button>
     </div>
   );

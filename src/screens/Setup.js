@@ -3,15 +3,25 @@ import { Link } from "react-router-dom";
 
 export default function Setup({ players, setPlayers }) {
   const [playerName, setPlayerName] = useState("");
-  const [alertPlayerNameError, setAlertPlayerNameError] = useState(false);
+    const [alertPlayerNameError, setAlertPlayerNameError] = useState(false);
+
+  const [gameName, setGameName] = useState("");
+    const [alertGameNameError, setAlertGameNameError] = useState(false);
+
 
   let gameDetails = {
-    gameName: "",
+    gameName: gameName,
     totalRounds: 0,
     totalPlayers: players,
   };
 
-  function handleChange(event) {
+   function handleGameNameChange(event) {
+    if (alertGameNameError) {
+      setAlertGameNameError(false);
+    }
+    setGameName(event.target.value);
+  }
+  function handlePlayerNameChange(event) {
     if (alertPlayerNameError) {
       setAlertPlayerNameError(false);
     }
@@ -40,33 +50,48 @@ export default function Setup({ players, setPlayers }) {
     <div className="flex flex-col m-2 h-screen text-lg">
       <div className="self-center p-4 text-2xl">Game Setup</div>
       <div className="flex flex-col h-28 p-4">
+        <div className="py-2">Enter Game Name:</div>
+        <input
+          type="text"
+          id="game-name"
+          name="game-name"
+          value={gameName}
+          onChange={handleGameNameChange}
+          className="bg-gray-200 border-2 border-solid rounded-lg border-violet-600 p-2 text-black"
+          placeholder="Game Name"
+        />
+        {alertGameNameError && (
+          <div className="text-red-500">Game name cannot be blank</div>
+        )}
+      </div>
+      <button
+          className="bg-violet-600 self-center font-bold rounded-lg w-36 p-2 mt-4"
+          onClick={addPlayer}
+        >
+          Submit
+        </button>
+      <div className="flex flex-col h-28 p-4">
         <div className="py-2">Enter Player Name:</div>
         <input
           type="text"
           id="player-name"
           name="player-name"
           value={playerName}
-          onChange={handleChange}
-          className="bg-gray-200 border-2 border-solid rounded-lg border-violet-600 p-2"
+          onChange={handlePlayerNameChange}
+          className="bg-gray-200 border-2 border-solid rounded-lg border-violet-600 p-2 text-black"
           placeholder="Player Name"
         />
         {alertPlayerNameError && (
           <div className="text-red-500">Player name cannot be blank</div>
         )}
       </div>
-      <div className="flex flex-row justify-around">
         <button
-          className="bg-violet-600 font-bold rounded-lg w-36 p-2 mt-4"
+          className="bg-violet-600 self-center font-bold rounded-lg w-36 p-2 mt-4"
           onClick={addPlayer}
         >
           Add Player
         </button>
-        <Link to="/scoreboard">
-          <button className="bg-violet-600 font-bold rounded-lg w-36 p-2 mt-4">
-            Start Game
-          </button>
-        </Link>
-      </div>
+        
       <div className="flex flex-col h-1/2 p-4">
         {players.length >= 1 && (
           <div className="text-xl font-bold border-b-2 border-violet-500">
@@ -92,6 +117,11 @@ export default function Setup({ players, setPlayers }) {
           </div>
         ))}
       </div>
+      <Link to="/scoreboard">
+          <button className="bg-violet-600 font-bold rounded-lg w-36 p-2 mt-4">
+            Start Game
+          </button>
+        </Link>
     </div>
   );
 }
