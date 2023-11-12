@@ -21,7 +21,7 @@ export default function Scorekeeper({ players }) {
 
   return (
     <div className="flex flex-col h-screen m-2 text-lg">
-      <table className="table-auto">
+      <table className="table-auto self-center">
         <thead>
           <tr className="border p-2">
             <th className="border p-2 w-1/3">Player</th>
@@ -33,7 +33,9 @@ export default function Scorekeeper({ players }) {
           {players.map((player, i) => (
             <tr className="border p-2">
               <td className="border p-2">{player.name}</td>
-              <td className="border p-2">{player.name}</td>
+              <td className="border p-2">
+                <input className="w-full bg-violet-300 text-black"></input>
+              </td>
               <td className="border p-2">{player.name}</td>
             </tr>
           ))}

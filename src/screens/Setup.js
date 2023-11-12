@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Modal from "../components/Modal";
 
 export default function Setup({ players, setPlayers }) {
   const [playerName, setPlayerName] = useState("");
@@ -8,11 +9,22 @@ export default function Setup({ players, setPlayers }) {
   const [gameName, setGameName] = useState("");
   const [alertGameNameError, setAlertGameNameError] = useState(false);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   let gameDetails = {
     gameName: gameName,
-    totalRounds: 0,
+    totalRounds: 1,
     totalPlayers: players,
   };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.classList.add('modal-open')
+    }
+    if (!isModalOpen) {
+      document.body.classList.remove('modal-open')
+    }
+  });
 
   function handleGameNameChange(event) {
     if (alertGameNameError) {
@@ -43,6 +55,10 @@ export default function Setup({ players, setPlayers }) {
 
   function removePlayer(index) {
     setPlayers(players.filter((_, i) => i !== index));
+  }
+
+  function closeModal() {
+    setIsModalOpen(false);
   }
 
   return (
@@ -116,7 +132,16 @@ export default function Setup({ players, setPlayers }) {
           </div>
         ))}
       </div>
-      <div className="mx-auto">
+      <div className="flex flex-col mx-auto">
+        <Modal isOpen={isModalOpen} closeModal={closeModal}>
+          <div>Settings Content</div>
+        </Modal>
+        <button
+          className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-600"
+          onClick={() => setIsModalOpen(true)}
+        >
+          Settings
+        </button>
         <Link to="/scoreboard">
           <button className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-600 border-2 border-white ">
             Start Game
