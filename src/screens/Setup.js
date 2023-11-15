@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Modal from "../components/Modal";
+import ToggleSwitch from "../components/subcomponents/ToggleSwitch";
 
 export default function Setup({ players, setPlayers }) {
   const [playerName, setPlayerName] = useState("");
@@ -135,6 +136,10 @@ export default function Setup({ players, setPlayers }) {
       <div className="flex flex-col mx-auto">
         <Modal isOpen={isModalOpen} closeModal={closeModal}>
           <div>Settings Content</div>
+          <div className="flex flex-row justify-between">
+            <div>Specify Number of Rounds</div>
+            <ToggleSwitch/>
+          </div>
         </Modal>
         <button
           className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-600"

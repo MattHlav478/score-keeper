@@ -21,12 +21,13 @@ export default function Scorekeeper({ players }) {
 
   return (
     <div className="flex flex-col h-screen m-2 text-lg">
+      <header>Round</header>
       <table className="table-auto self-center">
         <thead>
           <tr className="border p-2">
             <th className="border p-2 w-1/3">Player</th>
             <th className="border p-2 w-1/3">Round Score</th>
-            <th className="border p-2 w-1/3">Total Score</th>
+            {/* <th className="border p-2 w-1/3">Total Score</th> */}
           </tr>
         </thead>
         <tbody>
@@ -34,9 +35,9 @@ export default function Scorekeeper({ players }) {
             <tr className="border p-2">
               <td className="border p-2">{player.name}</td>
               <td className="border p-2">
-                <input className="w-full bg-violet-300 text-black"></input>
+                <input type="number"  className="w-full bg-violet-300 text-black"></input>
               </td>
-              <td className="border p-2">{player.name}</td>
+              {/* <td className="border p-2">{player.name}</td> */}
             </tr>
           ))}
         </tbody>
