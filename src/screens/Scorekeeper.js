@@ -1,22 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-export default function Scorekeeper({ players, gameDetails }) {
+export default function Scorekeeper({ players, setPlayers, gameDetails }) {
   const [round, setRound] = useState(1);
-  const [scores, setScores] = useState({});
+  const [currentRoundScores, setCurrentRoundScores] = useState(
+    Array(players.length).fill(0)
+  );
 
-  const handleScoreInputChange = (player, round, score) => {
-    const updatedScores = { ...scores };
-    updatedScores[player][round - 1] = parseInt(score);
-    setScores(updatedScores);
-  };
+  // useEffect(() => {
+  //   console.log(currentRoundScores);
+  // }, [currentRoundScores]);
+
+  // useEffect(() => {
+  //   console.log(players);
+  // }, [players]);
+
+  function handleScoreInputChange(playerIndex, event) {
+    const updatedScores = [...currentRoundScores];
+    updatedScores[playerIndex] = Number(event.target.value);
+    setCurrentRoundScores(updatedScores);
+  }
 
   const handleRoundSubmit = () => {
-    const roundScores = Object.values(scores).map(
-      (playerScores) => playerScores[round - 1] || 0
-    );
-    const roundTotal = roundScores.reduce((total, score) => total + score, 0);
+    const updatedPlayers = players.map((player, playerIndex) => {
+      return {
+        ...player,
+        scores: [...player.scores, currentRoundScores[playerIndex]],
+      };
+    });
 
-    setRound(round + 1);
+    setPlayers(updatedPlayers);
+    setCurrentRoundScores(Array(players.length).fill(0));
+
+    if (round === gameDetails.totalRounds) {
+      return;
+    } else {
+      setRound(round + 1);
+    }
   };
 
   return (
@@ -27,18 +46,17 @@ export default function Scorekeeper({ players, gameDetails }) {
           <tr className="border p-2">
             <th className="border p-2 w-1/3">Player</th>
             <th className="border p-2 w-1/3">Round Score</th>
-            {/* <th className="border p-2 w-1/3">Total Score</th> */}
           </tr>
         </thead>
         <tbody>
           {players.map((player, i) => (
-            <tr className="border p-2">
+            <tr key={i} className="border p-2">
               <td className="border p-2">{player.name}</td>
               <td className="border p-2">
                 <input
                   type="number"
                   className="w-full bg-violet-300 text-black"
-                  onChange={handleScoreInputChange}
+                  onChange={(event) => handleScoreInputChange(i, event)}
                 ></input>
               </td>
             </tr>
@@ -63,7 +81,7 @@ export default function Scorekeeper({ players, gameDetails }) {
           </thead>
           <tbody>
             {players.map((player, i) => (
-              <tr className="border p-2">
+              <tr key={i} className="border p-2">
                 <td className="border p-2">{player.name}</td>
                 <td className="border p-2">
                   {player.scores.reduce((total, score) => total + score, 0)}

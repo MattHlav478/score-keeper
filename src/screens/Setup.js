@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Modal from "../components/Modal";
 import ToggleSwitch from "../components/subcomponents/ToggleSwitch";
@@ -21,6 +21,7 @@ export default function Setup({
   const [isToggled, setIsToggled] = useState(false);
 
   const [rounds, setRounds] = useState(0);
+  const roundsInputRef = useRef();
 
   useEffect(() => {
     if (isModalOpen) {
@@ -42,6 +43,7 @@ export default function Setup({
       setAlertPlayerNameError(false);
     }
     setPlayerName(event.target.value);
+    console.log(event.target.value);
   }
 
   function addPlayer(event) {
@@ -62,17 +64,20 @@ export default function Setup({
     setPlayers(players.filter((_, i) => i !== index));
   }
 
-  function handleSetRounds(event) {
-    if (rounds == 0) {
+  function handleSetRounds() {
+    const roundsValue = roundsInputRef.current.value;
+    if (roundsValue == 0) {
       return;
     } else {
-      setRounds(rounds);
+      setRounds(roundsValue);
+      gameDetails.totalRounds = roundsValue;
     }
+    console.log("game details:", gameDetails)
   }
 
-  function handleRoundNumberChange(event) {
-    setRounds(event.target.value);
-  }
+  // function handleRoundNumberChange(event) {
+  //   setRounds(event.target.value);
+  // }
 
   function closeModal() {
     setIsModalOpen(false);
@@ -171,8 +176,7 @@ export default function Setup({
                 type="number"
                 id="number-rounds"
                 name="number-rounds"
-                // value={rounds}
-                onChange={handleRoundNumberChange}
+                ref={roundsInputRef}
                 className="self-center opacity-100 w-10 text-center bg-gray-200 border-2 border-solid rounded-lg border-violet-600 text-black"
                 placeholder="#"
               />
@@ -180,7 +184,7 @@ export default function Setup({
             </div>
             <button
               className=" my-2 bg-violet-600 text-white rounded-lg"
-              onClick={() => handleSetRounds}
+              onClick={handleSetRounds}
             >
               Set
             </button>

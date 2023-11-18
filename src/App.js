@@ -44,7 +44,7 @@ function App() {
           <Route
             path="/scoreboard"
             element={
-              <Scorekeeper players={players} gameDetails={gameDetails} />
+              <Scorekeeper players={players} setPlayers={setPlayers} gameDetails={gameDetails} />
             }
           />
         </Routes>
