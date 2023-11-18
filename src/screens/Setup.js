@@ -3,27 +3,29 @@ import { Link } from "react-router-dom";
 import Modal from "../components/Modal";
 import ToggleSwitch from "../components/subcomponents/ToggleSwitch";
 
-export default function Setup({ players, setPlayers }) {
+export default function Setup({
+  players,
+  setPlayers,
+  gameDetails,
+  gameName,
+  setGameName,
+}) {
   const [playerName, setPlayerName] = useState("");
   const [alertPlayerNameError, setAlertPlayerNameError] = useState(false);
 
-  const [gameName, setGameName] = useState("");
   const [alertGameNameError, setAlertGameNameError] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isToggled, setIsToggled] = useState(false);
 
-  let gameDetails = {
-    gameName: gameName,
-    totalRounds: 1,
-    totalPlayers: players,
-  };
+  const [rounds, setRounds] = useState(0);
 
   useEffect(() => {
     if (isModalOpen) {
-      document.body.classList.add('modal-open')
+      document.body.classList.add("modal-open");
     }
     if (!isModalOpen) {
-      document.body.classList.remove('modal-open')
+      document.body.classList.remove("modal-open");
     }
   });
 
@@ -56,6 +58,14 @@ export default function Setup({ players, setPlayers }) {
 
   function removePlayer(index) {
     setPlayers(players.filter((_, i) => i !== index));
+  }
+
+  function handleSetRounds(event) {
+    if (rounds == 0) {
+      return;
+    } else {
+      setRounds(rounds);
+    }
   }
 
   function closeModal() {
@@ -135,11 +145,42 @@ export default function Setup({ players, setPlayers }) {
       </div>
       <div className="flex flex-col mx-auto">
         <Modal isOpen={isModalOpen} closeModal={closeModal}>
-          <div>Settings Content</div>
+          <div className="self-center font-bold pb-4">SETTINGS</div>
           <div className="flex flex-row justify-between">
-            <div>Specify Number of Rounds</div>
-            <ToggleSwitch/>
+            <div>
+              <div>Specify Number of Rounds</div>
+              <div className="text-gray-400">
+                Current: {rounds == 0 ? "Unlimited" : rounds}
+              </div>
+            </div>
+
+            <ToggleSwitch
+              isToggled={isToggled}
+              onToggle={() => setIsToggled(!isToggled)}
+            />
           </div>
+          {isToggled && (
+            <div className="flex flex-col mx-auto">
+              <div className="flex mx-auto">
+                <input
+                  type="number"
+                  id="number-rounds"
+                  name="number-rounds"
+                  // value={rounds}
+                  // onChange={handlePlayerNameChange}
+                  className="self-center opacity-100 w-10 text-center bg-gray-200 border-2 border-solid rounded-lg border-violet-600 text-black"
+                  placeholder="#"
+                />
+                <div className="self-center pl-2">Rounds</div>
+              </div>
+              <button
+                className=" my-2 bg-violet-600 text-white rounded-lg"
+                onClick={() => handleSetRounds}
+              >
+                Set
+              </button>
+            </div>
+          )}
         </Modal>
         <button
           className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-600"
@@ -152,6 +193,7 @@ export default function Setup({ players, setPlayers }) {
             Start Game
           </button>
         </Link>
+        <div>{rounds}</div>
       </div>
     </div>
   );

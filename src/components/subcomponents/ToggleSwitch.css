@@ -39,7 +39,7 @@
 }
 
 input:checked + .slider {
-  background-color: green;
+  background-color: rgb(124 58 237);
 }
 
 input:checked + .slider:before {
