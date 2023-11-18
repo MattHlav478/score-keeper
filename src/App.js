@@ -19,8 +19,10 @@ function App() {
 
   let gameDetails = {
     gameName: gameName,
+    allPlayers: players,
+    totalPlayers: players.length,
     totalRounds: 0,
-    totalPlayers: players,
+    currentRound: 1,
   };
 
   return (
@@ -42,12 +44,7 @@ function App() {
           <Route
             path="/scoreboard"
             element={
-              <Scorekeeper
-                players={players}
-                setPlayers={setPlayers}
-                gameDetails={gameDetails}
-                gameName={gameName}
-              />
+              <Scorekeeper players={players} gameDetails={gameDetails} />
             }
           />
         </Routes>
