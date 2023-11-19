@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Modal from "../components/Modal";
+import { useNavigate } from "react-router-dom";
 import ToggleSwitch from "../components/subcomponents/ToggleSwitch";
 
 export default function Setup({
@@ -11,6 +12,8 @@ export default function Setup({
   isModalOpen,
   setIsModalOpen,
 }) {
+  const navigate = useNavigate();
+
   const [gameName, setGameName] = useState("");
   const [playerName, setPlayerName] = useState("");
 
@@ -84,7 +87,7 @@ export default function Setup({
   }
 
   function handleSetRounds() {
-    const roundsValue = roundsInputRef.current.value;
+    const roundsValue = Number(roundsInputRef.current.value);
     if (roundsValue == 0) {
       return;
     } else {
@@ -92,6 +95,21 @@ export default function Setup({
         ...prevDetails,
         totalRounds: roundsValue,
       }));
+      closeModal();
+    }
+  }
+
+  function handleStartGame() {
+    if (gameDetails.gameName == "") {
+      setAlertGameNameError(true);
+    }
+    if (players.length == 0) {
+      setAlertPlayerNameError(true);
+    }
+    if (gameDetails.totalRounds == 0) {
+      setAlertRoundSetError(true);
+    } else {
+      navigate("/scoreboard");
     }
   }
 
@@ -109,7 +127,6 @@ export default function Setup({
 
   return (
     <div className="flex flex-col m-2 h-screen text-lg">
-      <div className="self-center p-4 text-2xl">Game Setup</div>
       <div className="flex flex-col h-28 p-4">
         <div className="py-2">Enter Game Name:</div>
         <input
@@ -155,14 +172,31 @@ export default function Setup({
       </button>
 
       <div className="flex flex-col p-4">
-          <div className="text-xl">
+        <div className="self-center p-4 text-2xl font-bold">GAME DETAILS</div>
+        <div className="text-xl pb-2">
           Game:{" "}
-          <span className="font-bold">{gameDetails.gameName == "" ? "Untitled" : gameDetails.gameName}</span>
+          <span className="font-bold">
+            {gameDetails.gameName == "" ? "Untitled" : gameDetails.gameName}
+          </span>
+        </div>
+        <div className="text-xl pb-2">
+          # of Rounds:{" "}
+          <span className="font-bold">
+            {gameDetails.totalRounds == 0
+              ? "Unlimited"
+              : gameDetails.totalRounds}
+          </span>
+          <span className="pl-4">
+            <button
+              className="bg-violet-600 self-center font-bold w-20 rounded-lg"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Edit
+            </button>
+          </span>
         </div>
         {players.length >= 1 && (
-          <div className="text-xl border-b-2 border-violet-500">
-            Players:
-          </div>
+          <div className="text-xl border-b-2 border-violet-500">Players:</div>
         )}
         {players.map((player, i) => (
           <div
@@ -184,54 +218,35 @@ export default function Setup({
         ))}
       </div>
       <Modal isOpen={isModalOpen} closeModal={closeModal}>
-        <div className="self-center font-bold pb-4">SETTINGS</div>
-        <div className="flex flex-row justify-between">
-          <div>
-            <div>Specify Number of Rounds</div>
-            <div className="text-gray-400">
-              Current:{" "}
-              {gameDetails.totalRounds == 0
-                ? "Unlimited"
-                : gameDetails.totalRounds}
-            </div>
-          </div>
+        <div className="flex flex-col mx-auto">
+          <div>Specify Number of Rounds</div>
 
-          <ToggleSwitch
-            isToggled={isToggled}
-            onToggle={() => setIsToggled(!isToggled)}
-          />
-        </div>
-        {isToggled && (
-          <div className="flex flex-col mx-auto">
-            <div className="flex mx-auto">
-              <input
-                type="number"
-                id="number-rounds"
-                name="number-rounds"
-                ref={roundsInputRef}
-                className="self-center opacity-100 w-10 text-center bg-gray-200 border-2 border-solid rounded-lg border-violet-600 text-black"
-                placeholder="#"
-              />
-              <div className="self-center pl-2">Rounds</div>
+          <div className="flex mx-auto">
+            <input
+              type="number"
+              id="number-rounds"
+              name="number-rounds"
+              ref={roundsInputRef}
+              className="self-center opacity-100 w-10 text-center bg-gray-200 border-2 border-solid rounded-lg border-violet-600 text-black"
+              placeholder="#"
+            />
+            <div className="pl-4">
+              <button
+                className=" my-2 h-8 w-20 bg-violet-600 text-white rounded-lg"
+                onClick={handleSetRounds}
+              >
+                Set
+              </button>
             </div>
-            <button
-              className=" my-2 bg-violet-600 text-white rounded-lg"
-              onClick={handleSetRounds}
-            >
-              Set
-            </button>
           </div>
-        )}
+        </div>
       </Modal>
-      <div className="h-full flex flex-col mx-auto">
-        <button
-          className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-600"
-          onClick={() => setIsModalOpen(true)}
-        >
-          Settings
-        </button>
+      <div className="h-full flex flex-col mx-auto pb-20">
         <Link to="/scoreboard">
-          <button className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-600 border-2 border-white ">
+          <button
+            className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-200 text-violet-600 border-2 border-solid border-violet-600"
+            onClick={handleStartGame}
+          >
             Start Game
           </button>
         </Link>

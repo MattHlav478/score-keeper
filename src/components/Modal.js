@@ -30,7 +30,7 @@ export default function Modal({ children, isOpen, closeModal }) {
     <div className="modal" id="modal">
       <div
         ref={modalContentRef}
-        className="bg-white text-black p-4 rounded-xl w-4/5 min-h-min h-2/5"
+        className="bg-white text-black p-4 rounded-xl w-4/5 min-h-min"
       >
         <div className="relative w-100 bg-sky-200">
           <button

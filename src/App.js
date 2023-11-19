@@ -22,7 +22,7 @@ function App() {
     gameName: "",
     allPlayers: players,
     totalPlayers: players.length,
-    totalRounds: 2,
+    totalRounds: 0,
     currentRound: 1,
   });
 

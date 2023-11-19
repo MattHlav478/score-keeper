@@ -12,6 +12,7 @@ export default function Scorekeeper({
   const [currentRoundScores, setCurrentRoundScores] = useState(
     Array(players.length).fill(0)
   );
+  const [finalRoundSubmitted, setFinalRoundSubmitted] = useState(false);
 
   useEffect(() => {
     console.log(gameDetails);
@@ -39,6 +40,7 @@ export default function Scorekeeper({
     setCurrentRoundScores(Array(players.length).fill(0));
 
     if (gameDetails.currentRound === gameDetails.totalRounds) {
+      setFinalRoundSubmitted(true);
       return;
     } else {
       setGameDetails((prevDetails) => ({
@@ -70,7 +72,7 @@ export default function Scorekeeper({
       gameName: "",
       allPlayers: players,
       totalPlayers: players.length,
-      totalRounds: 2,
+      totalRounds: 0,
       currentRound: 1,
     });
   };
@@ -103,7 +105,7 @@ export default function Scorekeeper({
           ))}
         </tbody>
       </table>
-      {gameDetails.currentRound === gameDetails.totalRounds ? (
+      {gameDetails.currentRound === gameDetails.totalRounds && finalRoundSubmitted ? (
         <div>
           <button
             className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
