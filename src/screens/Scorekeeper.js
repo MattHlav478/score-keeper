@@ -18,9 +18,17 @@ export default function Scorekeeper({
     console.log(gameDetails);
   }, [gameDetails]);
 
-  // useEffect(() => {
-  //   console.log(players);
-  // }, [players]);
+  useEffect(() => {
+    const savedGameDetails = localStorage.getItem("gameDetails");
+    const savedPlayers = localStorage.getItem("players");
+
+    if (savedGameDetails) {
+      setGameDetails(JSON.parse(savedGameDetails));
+    }
+    if (savedPlayers) {
+      setPlayers(JSON.parse(savedPlayers));
+    }
+  }, []);
 
   function handleScoreInputChange(playerIndex, event) {
     const updatedScores = [...currentRoundScores];
@@ -37,7 +45,7 @@ export default function Scorekeeper({
     });
 
     setPlayers(updatedPlayers);
-    setCurrentRoundScores(Array(players.length).fill(0));
+    localStorage.setItem("players", JSON.stringify(updatedPlayers));
 
     if (gameDetails.currentRound === gameDetails.totalRounds) {
       setFinalRoundSubmitted(true);
@@ -45,8 +53,11 @@ export default function Scorekeeper({
     } else {
       setGameDetails((prevDetails) => ({
         ...prevDetails,
+        allPlayers: updatedPlayers,
         currentRound: prevDetails.currentRound + 1,
       }));
+      // Save gameDetails to local storage
+      localStorage.setItem("gameDetails", JSON.stringify(gameDetails));
     }
   };
 
@@ -75,15 +86,21 @@ export default function Scorekeeper({
       totalRounds: 0,
       currentRound: 1,
     });
+    localStorage.clear();
   };
 
   return (
     <div className="flex flex-col h-screen m-2 text-lg">
-      <header>
-        Round {gameDetails.currentRound}{" "}
-        {gameDetails.totalRounds === 0 ? null : `of ${gameDetails.totalRounds}`}
+      <header className="self-center">
+        <div className="text-2xl font-bold">{gameDetails.gameName}</div>
+        <div>
+          Round {gameDetails.currentRound}
+          {gameDetails.totalRounds === 0
+            ? null
+            : ` of ${gameDetails.totalRounds}`}
+        </div>
       </header>
-      <table className="table-auto self-center">
+      <table className="table-auto self-center w-1/2">
         <thead>
           <tr className="border p-2">
             <th className="border p-2 w-1/3">Player</th>
@@ -105,29 +122,32 @@ export default function Scorekeeper({
           ))}
         </tbody>
       </table>
-      {gameDetails.currentRound === gameDetails.totalRounds && finalRoundSubmitted ? (
-        <div>
+      <div className="flex justify-center">
+        {gameDetails.currentRound === gameDetails.totalRounds &&
+        finalRoundSubmitted ? (
+          <div>
+            <button
+              className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
+              onClick={handleRestart}
+            >
+              Quick Restart
+            </button>
+            <button
+              className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
+              onClick={handleNewGame}
+            >
+              New Game
+            </button>
+          </div>
+        ) : (
           <button
             className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
-            onClick={handleRestart}
+            onClick={handleRoundSubmit}
           >
-            Quick Restart
+            Submit Round
           </button>
-          <button
-            className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
-            onClick={handleNewGame}
-          >
-            New Game
-          </button>
-        </div>
-      ) : (
-        <button
-          className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
-          onClick={handleRoundSubmit}
-        >
-          Submit Round
-        </button>
-      )}
+        )}
+      </div>
 
       <div className="flex flex-col mx-auto">
         <header>Summary</header>

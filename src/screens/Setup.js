@@ -28,6 +28,10 @@ export default function Setup({
   const gameNameInputRef = useRef();
 
   useEffect(() => {
+    localStorage.clear();
+  }, []);
+
+  useEffect(() => {
     if (isModalOpen) {
       document.body.classList.add("modal-open");
     }
