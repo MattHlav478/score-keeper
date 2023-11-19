@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Scorekeeper, Setup } from "./screens/index";
+import Header from "./components/Header";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -25,9 +26,12 @@ function App() {
     currentRound: 1,
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <>
       <Router>
+        <Header isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         <Routes>
           <Route
             path="/"
@@ -37,8 +41,8 @@ function App() {
                 setPlayers={setPlayers}
                 gameDetails={gameDetails}
                 setGameDetails={setGameDetails}
-                // gameName={gameName}
-                // setGameName={setGameName}
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
               />
             }
           />
@@ -50,8 +54,6 @@ function App() {
                 setPlayers={setPlayers}
                 gameDetails={gameDetails}
                 setGameDetails={setGameDetails}
-                // gameName={gameName}
-                // setGameName={setGameName}
               />
             }
           />

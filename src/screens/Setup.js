@@ -8,6 +8,8 @@ export default function Setup({
   setPlayers,
   gameDetails,
   setGameDetails,
+  isModalOpen,
+  setIsModalOpen,
 }) {
   const [gameName, setGameName] = useState("");
   const [playerName, setPlayerName] = useState("");
@@ -17,7 +19,6 @@ export default function Setup({
   const [alertGameNameError, setAlertGameNameError] = useState(false);
   const [alertRoundSetError, setAlertRoundSetError] = useState(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isToggled, setIsToggled] = useState(false);
 
   const roundsInputRef = useRef();
@@ -154,8 +155,12 @@ export default function Setup({
       </button>
 
       <div className="flex flex-col p-4">
+          <div className="text-xl">
+          Game:{" "}
+          <span className="font-bold">{gameDetails.gameName == "" ? "Untitled" : gameDetails.gameName}</span>
+        </div>
         {players.length >= 1 && (
-          <div className="text-xl font-bold border-b-2 border-violet-500">
+          <div className="text-xl border-b-2 border-violet-500">
             Players:
           </div>
         )}

@@ -146,7 +146,7 @@ export default function Scorekeeper({
               </tr>
             ))}
           </tbody>
-        </table>{" "}
+        </table>
       </div>
     </div>
   );
