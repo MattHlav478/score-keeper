@@ -31,6 +31,7 @@ export default function Setup({
     localStorage.clear();
   }, []);
 
+
   useEffect(() => {
     if (isModalOpen) {
       document.body.classList.add("modal-open");
@@ -113,6 +114,8 @@ export default function Setup({
     if (gameDetails.totalRounds == 0) {
       setAlertRoundSetError(true);
     } else {
+      localStorage.setItem("gameDetails", JSON.stringify(gameDetails));
+      localStorage.setItem("players", JSON.stringify(players));
       navigate("/scoreboard");
     }
   }
@@ -121,9 +124,6 @@ export default function Setup({
     console.log("game details:", gameDetails);
   }, [gameDetails]);
 
-  // function handleRoundNumberChange(event) {
-  //   setRounds(event.target.value);
-  // }
 
   function closeModal() {
     setIsModalOpen(false);

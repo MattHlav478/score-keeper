@@ -14,9 +14,14 @@ export default function Scorekeeper({
   );
   const [finalRoundSubmitted, setFinalRoundSubmitted] = useState(false);
 
+  // useEffect(() => {
+  //   console.log(gameDetails);
+  // }, [gameDetails]);
+
   useEffect(() => {
-    console.log(gameDetails);
-  }, [gameDetails]);
+    localStorage.setItem("players", JSON.stringify(players));
+    localStorage.setItem("gameDetails", JSON.stringify(gameDetails));
+  }, [players, gameDetails]);
 
   useEffect(() => {
     const savedGameDetails = localStorage.getItem("gameDetails");
@@ -56,9 +61,10 @@ export default function Scorekeeper({
         allPlayers: updatedPlayers,
         currentRound: prevDetails.currentRound + 1,
       }));
-      // Save gameDetails to local storage
-      localStorage.setItem("gameDetails", JSON.stringify(gameDetails));
     }
+
+    // Reset currentRoundScores to initial state
+    setCurrentRoundScores(Array(players.length).fill(0));
   };
 
   const handleRestart = () => {
@@ -77,7 +83,6 @@ export default function Scorekeeper({
   };
 
   const handleNewGame = () => {
-    navigate("/");
     setPlayers([]);
     setGameDetails({
       gameName: "",
@@ -86,7 +91,7 @@ export default function Scorekeeper({
       totalRounds: 0,
       currentRound: 1,
     });
-    localStorage.clear();
+    navigate("/");
   };
 
   return (
@@ -124,22 +129,7 @@ export default function Scorekeeper({
       </table>
       <div className="flex justify-center">
         {gameDetails.currentRound === gameDetails.totalRounds &&
-        finalRoundSubmitted ? (
-          <div>
-            <button
-              className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
-              onClick={handleRestart}
-            >
-              Quick Restart
-            </button>
-            <button
-              className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
-              onClick={handleNewGame}
-            >
-              New Game
-            </button>
-          </div>
-        ) : (
+        finalRoundSubmitted ? null : (
           <button
             className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
             onClick={handleRoundSubmit}
@@ -169,6 +159,29 @@ export default function Scorekeeper({
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="flex justify-center">
+        {gameDetails.currentRound === gameDetails.totalRounds &&
+        finalRoundSubmitted ? (
+          <div className="w-full flex justify-around">
+            <div>
+              <button
+                className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
+                onClick={handleRestart}
+              >
+                Quick Restart
+              </button>
+            </div>
+            <div>
+              <button
+                className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
+                onClick={handleNewGame}
+              >
+                New Game
+              </button>
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );
