@@ -8,9 +8,8 @@ export default function Setup({
   setPlayers,
   gameDetails,
   setGameDetails,
-  gameName,
-  setGameName,
 }) {
+  const [gameName, setGameName] = useState("");
   const [playerName, setPlayerName] = useState("");
 
   // Errors
@@ -22,6 +21,7 @@ export default function Setup({
   const [isToggled, setIsToggled] = useState(false);
 
   const roundsInputRef = useRef();
+  const gameNameInputRef = useRef();
 
   useEffect(() => {
     if (isModalOpen) {
@@ -37,7 +37,25 @@ export default function Setup({
       setAlertGameNameError(false);
     }
     setGameName(event.target.value);
+    setGameDetails((prevDetails) => ({
+      ...prevDetails,
+      gameDetails: event.target.value,
+    }));
   }
+
+  function handleSubmitGameName() {
+    let gameNameValue = gameNameInputRef.current.value;
+    if (gameNameValue == "") {
+      setAlertGameNameError(true);
+    } else {
+      setGameDetails((prevDetails) => ({
+        ...prevDetails,
+        gameName: gameNameValue,
+      }));
+      setGameName("");
+    }
+  }
+
   function handlePlayerNameChange(event) {
     if (alertPlayerNameError) {
       setAlertPlayerNameError(false);
@@ -97,6 +115,7 @@ export default function Setup({
           type="text"
           id="game-name"
           name="game-name"
+          ref={gameNameInputRef}
           value={gameName}
           onChange={handleGameNameChange}
           className="bg-gray-200 border-2 border-solid rounded-lg border-violet-600 p-2 text-black"
@@ -107,8 +126,8 @@ export default function Setup({
         )}
       </div>
       <button
+        onClick={handleSubmitGameName}
         className="bg-violet-600 self-center font-bold rounded-lg w-36 p-2 mt-4"
-        onClick={addPlayer}
       >
         Submit
       </button>

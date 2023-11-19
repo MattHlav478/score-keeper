@@ -15,16 +15,15 @@ function App() {
     },
   ]);
 
-  const [gameName, setGameName] = useState("");
+  // const [gameName, setGameName] = useState("");
 
   const [gameDetails, setGameDetails] = useState({
-  gameName: gameName,
-  allPlayers: players,
-  totalPlayers: players.length,
-  totalRounds: 0,
-  currentRound: 1,
-});
-
+    gameName: "",
+    allPlayers: players,
+    totalPlayers: players.length,
+    totalRounds: 2,
+    currentRound: 1,
+  });
 
   return (
     <>
@@ -38,15 +37,22 @@ function App() {
                 setPlayers={setPlayers}
                 gameDetails={gameDetails}
                 setGameDetails={setGameDetails}
-                gameName={gameName}
-                setGameName={setGameName}
+                // gameName={gameName}
+                // setGameName={setGameName}
               />
             }
           />
           <Route
             path="/scoreboard"
             element={
-              <Scorekeeper players={players} setPlayers={setPlayers} gameDetails={gameDetails} />
+              <Scorekeeper
+                players={players}
+                setPlayers={setPlayers}
+                gameDetails={gameDetails}
+                setGameDetails={setGameDetails}
+                // gameName={gameName}
+                // setGameName={setGameName}
+              />
             }
           />
         </Routes>

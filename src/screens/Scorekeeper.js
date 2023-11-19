@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Scorekeeper({ players, setPlayers, gameDetails }) {
-  const [round, setRound] = useState(1);
+export default function Scorekeeper({
+  players,
+  setPlayers,
+  gameDetails,
+  setGameDetails,
+}) {
+  const navigate = useNavigate();
+
   const [currentRoundScores, setCurrentRoundScores] = useState(
     Array(players.length).fill(0)
   );
 
-  // useEffect(() => {
-  //   console.log(currentRoundScores);
-  // }, [currentRoundScores]);
+  useEffect(() => {
+    console.log(gameDetails);
+  }, [gameDetails]);
 
   // useEffect(() => {
   //   console.log(players);
@@ -31,16 +38,49 @@ export default function Scorekeeper({ players, setPlayers, gameDetails }) {
     setPlayers(updatedPlayers);
     setCurrentRoundScores(Array(players.length).fill(0));
 
-    if (round === gameDetails.totalRounds) {
+    if (gameDetails.currentRound === gameDetails.totalRounds) {
       return;
     } else {
-      setRound(round + 1);
+      setGameDetails((prevDetails) => ({
+        ...prevDetails,
+        currentRound: prevDetails.currentRound + 1,
+      }));
     }
+  };
+
+  const handleRestart = () => {
+    setPlayers(
+      players.map((player) => {
+        return {
+          ...player,
+          scores: [],
+        };
+      })
+    );
+    setGameDetails((prevDetails) => ({
+      ...prevDetails,
+      currentRound: 1,
+    }));
+  };
+
+  const handleNewGame = () => {
+    navigate("/");
+    setPlayers([]);
+    setGameDetails({
+      gameName: "",
+      allPlayers: players,
+      totalPlayers: players.length,
+      totalRounds: 2,
+      currentRound: 1,
+    });
   };
 
   return (
     <div className="flex flex-col h-screen m-2 text-lg">
-      <header>Round {round}</header>
+      <header>
+        Round {gameDetails.currentRound}{" "}
+        {gameDetails.totalRounds === 0 ? null : `of ${gameDetails.totalRounds}`}
+      </header>
       <table className="table-auto self-center">
         <thead>
           <tr className="border p-2">
@@ -63,13 +103,30 @@ export default function Scorekeeper({ players, setPlayers, gameDetails }) {
           ))}
         </tbody>
       </table>
+      {gameDetails.currentRound === gameDetails.totalRounds ? (
+        <div>
+          <button
+            className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
+            onClick={handleRestart}
+          >
+            Quick Restart
+          </button>
+          <button
+            className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
+            onClick={handleNewGame}
+          >
+            New Game
+          </button>
+        </div>
+      ) : (
+        <button
+          className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
+          onClick={handleRoundSubmit}
+        >
+          Submit Round
+        </button>
+      )}
 
-      <button
-        className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-600 border-2 border-white "
-        onClick={handleRoundSubmit}
-      >
-        Submit Round
-      </button>
       <div className="flex flex-col mx-auto">
         <header>Summary</header>
         <table className="table-auto self-center">
