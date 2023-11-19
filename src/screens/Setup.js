@@ -7,6 +7,7 @@ export default function Setup({
   players,
   setPlayers,
   gameDetails,
+  setGameDetails,
   gameName,
   setGameName,
 }) {
@@ -20,7 +21,6 @@ export default function Setup({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isToggled, setIsToggled] = useState(false);
 
-  const [rounds, setRounds] = useState(0);
   const roundsInputRef = useRef();
 
   useEffect(() => {
@@ -69,11 +69,16 @@ export default function Setup({
     if (roundsValue == 0) {
       return;
     } else {
-      setRounds(roundsValue);
-      gameDetails.totalRounds = roundsValue;
+      setGameDetails((prevDetails) => ({
+        ...prevDetails,
+        totalRounds: roundsValue,
+      }));
     }
-    console.log("game details:", gameDetails)
   }
+
+  useEffect(() => {
+    console.log("game details:", gameDetails);
+  }, [gameDetails]);
 
   // function handleRoundNumberChange(event) {
   //   setRounds(event.target.value);
@@ -160,7 +165,10 @@ export default function Setup({
           <div>
             <div>Specify Number of Rounds</div>
             <div className="text-gray-400">
-              Current: {rounds == 0 ? "Unlimited" : rounds}
+              Current:{" "}
+              {gameDetails.totalRounds == 0
+                ? "Unlimited"
+                : gameDetails.totalRounds}
             </div>
           </div>
 

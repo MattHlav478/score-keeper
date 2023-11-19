@@ -17,13 +17,14 @@ function App() {
 
   const [gameName, setGameName] = useState("");
 
-  let gameDetails = {
-    gameName: gameName,
-    allPlayers: players,
-    totalPlayers: players.length,
-    totalRounds: 0,
-    currentRound: 1,
-  };
+  const [gameDetails, setGameDetails] = useState({
+  gameName: gameName,
+  allPlayers: players,
+  totalPlayers: players.length,
+  totalRounds: 0,
+  currentRound: 1,
+});
+
 
   return (
     <>
@@ -36,6 +37,7 @@ function App() {
                 players={players}
                 setPlayers={setPlayers}
                 gameDetails={gameDetails}
+                setGameDetails={setGameDetails}
                 gameName={gameName}
                 setGameName={setGameName}
               />
