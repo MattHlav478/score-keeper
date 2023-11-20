@@ -6,14 +6,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const [players, setPlayers] = useState([
-    {
-      name: "Matt",
-      scores: [],
-    },
-    {
-      name: "Kailey",
-      scores: [],
-    },
+    // {
+    //   name: "Becky",
+    //   scores: [],
+    // },
+    // {
+    //   name: "John",
+    //   scores: [],
+    // },
   ]);
 
   // const [gameName, setGameName] = useState("");
