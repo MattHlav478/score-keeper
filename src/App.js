@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Scorekeeper, Setup } from "./screens/index";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   const [players, setPlayers] = useState([
@@ -49,17 +50,17 @@ function App() {
           isGameInProgress={isGameInProgress}
           setIsGameInProgress={setIsGameInProgress}
         />
-      )
-      : (
-      <Scorekeeper
-        players={players}
-        setPlayers={setPlayers}
-        gameDetails={gameDetails}
-        setGameDetails={setGameDetails}
-        isGameInProgress={isGameInProgress}
-        setIsGameInProgress={setIsGameInProgress}
-      />
+      ) : (
+        <Scorekeeper
+          players={players}
+          setPlayers={setPlayers}
+          gameDetails={gameDetails}
+          setGameDetails={setGameDetails}
+          isGameInProgress={isGameInProgress}
+          setIsGameInProgress={setIsGameInProgress}
+        />
       )}
+      <Footer />
     </>
   );
 }
