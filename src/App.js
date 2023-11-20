@@ -28,9 +28,9 @@ function App() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    console.log("game details:", gameDetails);
-  }, [gameDetails]);
+  // useEffect(() => {
+  //   console.log("game details:", gameDetails);
+  // }, [gameDetails]);
 
   return (
     <>

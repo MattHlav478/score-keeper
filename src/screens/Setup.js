@@ -60,7 +60,7 @@ export default function Setup({
 
   function handleSubmitGameName() {
     let gameNameValue = gameNameInputRef.current.value;
-    if (gameNameValue == "") {
+    if (gameNameValue === "") {
       setAlertGameNameError(true);
     } else {
       setGameDetails((prevDetails) => ({
@@ -80,7 +80,7 @@ export default function Setup({
   }
 
   function addPlayer(event) {
-    if (playerName == "") {
+    if (playerName === "") {
       setAlertPlayerNameError(true);
     } else {
       let newPlayer = {
@@ -99,7 +99,7 @@ export default function Setup({
 
   function handleSetRounds() {
     const roundsValue = Number(roundsInputRef.current.value);
-    if (roundsValue == 0) {
+    if (roundsValue === 0) {
       return;
     } else {
       setGameDetails((prevDetails) => ({
@@ -111,13 +111,13 @@ export default function Setup({
   }
 
   function handleStartGame() {
-    if (gameDetails.gameName == "") {
+    if (gameDetails.gameName === "") {
       setAlertGameNameError(true);
     }
-    if (players.length == 0) {
+    if (players.length === 0) {
       setAlertPlayerNameError(true);
     }
-    if (gameDetails.totalRounds == 0) {
+    if (gameDetails.totalRounds === 0) {
       setAlertRoundSetError(true);
     } else {
       // localStorage.setItem("gameDetails", JSON.stringify(gameDetails));
@@ -181,13 +181,13 @@ export default function Setup({
         <div className="text-xl pb-2">
           Game:{" "}
           <span className="font-bold">
-            {gameDetails.gameName == "" ? "Untitled" : gameDetails.gameName}
+            {gameDetails.gameName === "" ? "Untitled" : gameDetails.gameName}
           </span>
         </div>
         <div className="text-xl pb-2">
           # of Rounds:{" "}
           <span className="font-bold">
-            {gameDetails.totalRounds == 0
+            {gameDetails.totalRounds === 0
               ? "Unlimited"
               : gameDetails.totalRounds}
           </span>
