@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Scorekeeper, Setup } from "./screens/index";
 import Header from "./components/Header";
@@ -27,6 +27,10 @@ function App() {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("game details:", gameDetails);
+  }, [gameDetails]);
 
   return (
     <>

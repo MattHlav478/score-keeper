@@ -29,8 +29,14 @@ export default function Setup({
 
   useEffect(() => {
     localStorage.clear();
+    setGameDetails({
+      gameName: "",
+      allPlayers: players,
+      totalPlayers: players.length,
+      totalRounds: 0,
+      currentRound: 1,
+    });
   }, []);
-
 
   useEffect(() => {
     if (isModalOpen) {
@@ -114,16 +120,11 @@ export default function Setup({
     if (gameDetails.totalRounds == 0) {
       setAlertRoundSetError(true);
     } else {
-      localStorage.setItem("gameDetails", JSON.stringify(gameDetails));
-      localStorage.setItem("players", JSON.stringify(players));
+      // localStorage.setItem("gameDetails", JSON.stringify(gameDetails));
+      // localStorage.setItem("players", JSON.stringify(players));
       navigate("/scoreboard");
     }
   }
-
-  useEffect(() => {
-    console.log("game details:", gameDetails);
-  }, [gameDetails]);
-
 
   function closeModal() {
     setIsModalOpen(false);
@@ -228,6 +229,7 @@ export default function Setup({
           <div className="flex mx-auto">
             <input
               type="number"
+              inputMode="numeric"
               id="number-rounds"
               name="number-rounds"
               ref={roundsInputRef}
