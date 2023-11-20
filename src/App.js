@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import { Scorekeeper, Setup } from "./screens/index";
 import Header from "./components/Header";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const [players, setPlayers] = useState([
@@ -15,8 +14,6 @@ function App() {
     //   scores: [],
     // },
   ]);
-
-  // const [gameName, setGameName] = useState("");
 
   const [gameDetails, setGameDetails] = useState({
     gameName: "",
@@ -41,7 +38,7 @@ function App() {
         isGameInProgress={isGameInProgress}
         setIsGameInProgress={setIsGameInProgress}
       />
-      {!isGameInProgress && (
+      {!isGameInProgress ? (
         <Setup
           players={players}
           setPlayers={setPlayers}
@@ -52,7 +49,7 @@ function App() {
           isGameInProgress={isGameInProgress}
           setIsGameInProgress={setIsGameInProgress}
         />
-      )}
+      )
       : (
       <Scorekeeper
         players={players}
@@ -62,7 +59,7 @@ function App() {
         isGameInProgress={isGameInProgress}
         setIsGameInProgress={setIsGameInProgress}
       />
-      )
+      )}
     </>
   );
 }
