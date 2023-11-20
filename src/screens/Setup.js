@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Modal from "../components/Modal";
 import { useNavigate } from "react-router-dom";
-import ToggleSwitch from "../components/subcomponents/ToggleSwitch";
 
 export default function Setup({
   players,
@@ -21,8 +20,6 @@ export default function Setup({
   const [alertPlayerNameError, setAlertPlayerNameError] = useState(false);
   const [alertGameNameError, setAlertGameNameError] = useState(false);
   const [alertRoundSetError, setAlertRoundSetError] = useState(false);
-
-  const [isToggled, setIsToggled] = useState(false);
 
   const roundsInputRef = useRef();
   const gameNameInputRef = useRef();
