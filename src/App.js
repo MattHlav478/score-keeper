@@ -27,6 +27,7 @@ function App() {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGameInProgress, setIsGameInProgress] = useState(false);
 
   // useEffect(() => {
   //   console.log("game details:", gameDetails);
@@ -34,35 +35,34 @@ function App() {
 
   return (
     <>
-      <Router>
-        <Header isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Setup
-                players={players}
-                setPlayers={setPlayers}
-                gameDetails={gameDetails}
-                setGameDetails={setGameDetails}
-                isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}
-              />
-            }
-          />
-          <Route
-            path="/scoreboard"
-            element={
-              <Scorekeeper
-                players={players}
-                setPlayers={setPlayers}
-                gameDetails={gameDetails}
-                setGameDetails={setGameDetails}
-              />
-            }
-          />
-        </Routes>
-      </Router>
+      <Header
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        isGameInProgress={isGameInProgress}
+        setIsGameInProgress={setIsGameInProgress}
+      />
+      {!isGameInProgress && (
+        <Setup
+          players={players}
+          setPlayers={setPlayers}
+          gameDetails={gameDetails}
+          setGameDetails={setGameDetails}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          isGameInProgress={isGameInProgress}
+          setIsGameInProgress={setIsGameInProgress}
+        />
+      )}
+      : (
+      <Scorekeeper
+        players={players}
+        setPlayers={setPlayers}
+        gameDetails={gameDetails}
+        setGameDetails={setGameDetails}
+        isGameInProgress={isGameInProgress}
+        setIsGameInProgress={setIsGameInProgress}
+      />
+      )
     </>
   );
 }

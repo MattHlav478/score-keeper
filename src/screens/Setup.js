@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Modal from "../components/Modal";
-import { useNavigate } from "react-router-dom";
 
 export default function Setup({
   players,
@@ -10,9 +9,9 @@ export default function Setup({
   setGameDetails,
   isModalOpen,
   setIsModalOpen,
+  isGameInProgress,
+  setIsGameInProgress,
 }) {
-  const navigate = useNavigate();
-
   const [gameName, setGameName] = useState("");
   const [playerName, setPlayerName] = useState("");
 
@@ -26,6 +25,7 @@ export default function Setup({
 
   useEffect(() => {
     localStorage.clear();
+    setPlayers([]);
     setGameDetails({
       gameName: "",
       allPlayers: players,
@@ -113,13 +113,10 @@ export default function Setup({
     }
     if (players.length === 0) {
       setAlertPlayerNameError(true);
-    }
-    if (gameDetails.totalRounds === 0) {
-      setAlertRoundSetError(true);
     } else {
       // localStorage.setItem("gameDetails", JSON.stringify(gameDetails));
       // localStorage.setItem("players", JSON.stringify(players));
-      navigate("/scoreboard");
+      setIsGameInProgress(true);
     }
   }
 
@@ -245,14 +242,12 @@ export default function Setup({
         </div>
       </Modal>
       <div className="h-full flex flex-col mx-auto pb-20">
-        <Link to="/scoreboard">
-          <button
-            className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-200 text-violet-600 border-2 border-solid border-violet-600"
-            onClick={handleStartGame}
-          >
-            Start Game
-          </button>
-        </Link>
+        <button
+          className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-200 text-violet-600 border-2 border-solid border-violet-600"
+          onClick={handleStartGame}
+        >
+          Start Game
+        </button>
       </div>
     </div>
   );

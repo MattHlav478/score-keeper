@@ -7,11 +7,16 @@ import Modal from "./Modal";
 
 // import Nav from "./subcomponents/Nav";
 
-export default function Header() {
+export default function Header({isgameInProgress, setIsGameInProgress}) {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   function closeModal() {
     setIsNavOpen(false);
+  }
+
+  function handleNewGame() {
+    setIsGameInProgress(false);
+    closeModal();
   }
 
   return (
@@ -31,14 +36,12 @@ export default function Header() {
           <div>New Game?</div>
           <div>
             <div>
-              <Link to="/">
                 <button
                   className=" my-2 h-8 w-20 bg-violet-600 text-white rounded-lg"
-                  onClick={closeModal}
+                  onClick={handleNewGame}
                 >
                   Yes
                 </button>
-              </Link>
             </div>
             <div>
               <button

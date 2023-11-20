@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function Scorekeeper({
   players,
   setPlayers,
   gameDetails,
   setGameDetails,
+  isGameInProgress,
+  setIsGameInProgress,
 }) {
-  const navigate = useNavigate();
 
   const [currentRoundScores, setCurrentRoundScores] = useState(
     Array(players.length).fill(0)
@@ -105,7 +105,7 @@ export default function Scorekeeper({
       totalRounds: 0,
       currentRound: 1,
     });
-    navigate("/");
+    setIsGameInProgress(false);
   };
 
   return (
