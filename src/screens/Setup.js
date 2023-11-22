@@ -246,7 +246,7 @@ export default function Setup({
                 ref={roundsInputRef}
                 className="self-center opacity-100 w-10 text-center bg-gray-200 border-2 border-solid rounded-lg border-violet-600 text-black"
                 placeholder="#"
-                min={-1}
+                min={1}
               />
               <div className="pl-4">
                 <button

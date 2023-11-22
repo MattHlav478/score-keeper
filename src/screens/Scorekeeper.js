@@ -43,18 +43,6 @@ export default function Scorekeeper({
       });
   }, [players, gameDetails]);
 
-  // useEffect(() => {
-  //   const savedGameDetails = localStorage.getItem("gameDetails");
-  //   const savedPlayers = localStorage.getItem("players");
-
-  //   if (savedGameDetails) {
-  //     setGameDetails(JSON.parse(savedGameDetails));
-  //   }
-  //   if (savedPlayers) {
-  //     setPlayers(JSON.parse(savedPlayers));
-  //   }
-  // }, []);
-
   function handleScoreInputChange(playerIndex, event) {
     const updatedScores = [...currentRoundScores];
     updatedScores[playerIndex] = Number(event.target.value);
@@ -82,7 +70,6 @@ export default function Scorekeeper({
     });
 
     setPlayers(updatedPlayers);
-    // localStorage.setItem("players", JSON.stringify(updatedPlayers));
 
     if (gameDetails.currentRound === gameDetails.totalRounds) {
       setFinalRoundSubmitted(true);
@@ -128,10 +115,9 @@ export default function Scorekeeper({
     return new Promise((resolve, reject) => {
       try {
         setIsGameInProgress(false);
-        localStorage.setItem(
-          "isGameInProgress",
-          JSON.stringify(false)
-        );
+        setFinalRoundSubmitted(false);
+        console.log("final round submitted: ", finalRoundSubmitted);
+        localStorage.setItem("isGameInProgress", JSON.stringify(false));
         localStorage.clear("gameDetails");
         resolve();
       } catch (error) {
@@ -143,11 +129,12 @@ export default function Scorekeeper({
   return (
     <div className="flex flex-row justify-center w-full ">
       <div className="flex flex-col m-2 h-screen w-full sm:w-1/3 text-lg">
-        {gameDetails.currentRound <= gameDetails.totalRounds ||
-        !finalRoundSubmitted ? (
+        {!finalRoundSubmitted ? (
           <>
-            <header className="self-center">
-              <div className="text-2xl font-bold">{gameDetails.gameName}</div>
+            <header className="flex flex-col self-center">
+              <div className="text-2xl font-bold self-center">
+                {gameDetails.gameName}
+              </div>
               <div className="pb-2">
                 Round {gameDetails.currentRound}
                 {gameDetails.totalRounds === 0
@@ -194,7 +181,7 @@ export default function Scorekeeper({
               </tbody>
             </table>
 
-            <div className="flex justify-center">
+            <div className="flex justify-center pb-20">
               <button
                 className="w-36 p-2 mt-4 font-bold rounded-lg bg-violet-600 border-2 border-white "
                 onClick={handleRoundSubmit}
@@ -204,9 +191,13 @@ export default function Scorekeeper({
             </div>
           </>
         ) : (
-          <div className="w-36 p-2 mt-4"></div>
+          <header className="flex flex-col self-center">
+            <div className="text-2xl font-bold self-center">
+              {gameDetails.gameName}
+            </div>
+          </header>
         )}
-        <div className="flex flex-col pt-20">
+        <div className="flex flex-col">
           <header className="self-center pb-2">Game Summary</header>
           <table className="self-center w-3/4">
             <thead>
