@@ -77,8 +77,16 @@ export default function Setup({
   }
 
   function addPlayer(event) {
+    const nameExists = players.some((player) => player.name === playerName);
+
     if (playerName === "") {
       setAlertPlayerNameError(true);
+      alert("Player name cannot be blank");
+      return;
+    }
+    if (nameExists) {
+      alert("Player name already exists");
+      return;
     } else {
       let newPlayer = {
         name: playerName,
@@ -113,6 +121,8 @@ export default function Setup({
     }
     if (players.length === 0) {
       setAlertPlayerNameError(true);
+      alert("Must have at least one player");
+      return;
     } else {
       // localStorage.setItem("gameDetails", JSON.stringify(gameDetails));
       // localStorage.setItem("players", JSON.stringify(players));
@@ -144,9 +154,9 @@ export default function Setup({
             className="bg-gray-200 border-2 border-solid rounded-lg border-violet-600 p-2 text-black"
             placeholder="Game Name"
           />
-          {alertGameNameError && (
+          {/* {alertGameNameError && (
             <div className="text-red-500">Game name cannot be blank</div>
-          )}
+          )} */}
         </div>
         <button
           onClick={handleSubmitGameName}
@@ -164,10 +174,11 @@ export default function Setup({
             onChange={handlePlayerNameChange}
             className="bg-gray-200 border-2 border-solid rounded-lg border-violet-600 p-2 text-black"
             placeholder="Player Name"
+            maxLength={16}
           />
-          {alertPlayerNameError && (
+          {/* {alertPlayerNameError && (
             <div className="text-red-500">Player name cannot be blank</div>
-          )}
+          )} */}
         </div>
         <button
           className="bg-violet-600 self-center font-bold rounded-lg w-36 p-2 mt-4"

@@ -26,6 +26,8 @@ function App() {
     let gameProgress = localStorage.getItem("isGameInProgress");
     if (gameProgress === "true") {
       setIsGameInProgress(true);
+    } else if (gameProgress === "false") {
+      setIsGameInProgress(false);
     }
   }, []);
 

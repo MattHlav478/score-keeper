@@ -8,7 +8,7 @@ import Modal from "./Modal";
 // import Nav from "./subcomponents/Nav";
 
 export default function Header({
-  isgameInProgress,
+  isGameInProgress,
   setIsGameInProgress,
   players,
   setPlayers,
@@ -49,13 +49,15 @@ export default function Header({
       <p href="/" className="text-2xl font-bold text-violet-400">
         ScoreKeeper
       </p>
-      <div onClick={() => setIsNavOpen(true)}>
-        <FontAwesomeIcon
-          icon={faEllipsis}
-          size="2xl"
-          style={{ color: "#a78bfa" }}
-        />
-      </div>
+      {isGameInProgress && (
+        <div onClick={() => setIsNavOpen(true)}>
+          <FontAwesomeIcon
+            icon={faEllipsis}
+            size="2xl"
+            style={{ color: "#a78bfa" }}
+          />
+        </div>
+      )}
       <Modal isOpen={isNavOpen} closeModal={closeModal}>
         <div className="flex flex-col mx-auto">
           <div>New Game?</div>
