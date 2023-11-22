@@ -13,10 +13,6 @@ export default function Scorekeeper({
   );
   const [finalRoundSubmitted, setFinalRoundSubmitted] = useState(false);
 
-  // useEffect(() => {
-  //   console.log(gameDetails);
-  // }, [gameDetails]);
-
   const saveToLocalStorage = () => {
     return new Promise((resolve, reject) => {
       try {

@@ -4,18 +4,21 @@
 
 ## Description
 ScoreKeeper is a web application designed to keep track of scores for various games. It allows users to enter the game name, add players, and specify the number of rounds. The application is built using React and Tailwind CSS for styling.
-Features
 
+# Features
 - Add a game with a specific name
 - Add players to the game
 - Specify the number of rounds for the game
 - Start the game and keep track of scores
+- Can save to home screen of mobile device as Progressive Web Application (PWA)
 
 ## Code Overview
 The application is structured into several components and screens. The main screen is Setup.js where the game setup takes place. This includes entering the game name, adding players, and specifying the number of rounds.
 
 ## Deployment
-This application is deployed via GitHub Pages.
+This application is deployed via GitHub Pages. Please note that this application can also be saved to the home screen of mobile devices as a PWA.
+
+[Application Deployment](https://hephaestus01.github.io/score-keeper/)
 
 ## Licenses
 MIT License
