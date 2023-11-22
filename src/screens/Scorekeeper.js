@@ -158,8 +158,8 @@ export default function Scorekeeper({
             <table className="self-center w-1/2">
               <thead>
                 <tr className="border p-2">
-                  <th className="border p-2 w-1/3">Player</th>
-                  <th className="border p-2 w-1/3">Round Score</th>
+                  <th className="border p-2">Player</th>
+                  <th className="border p-2">Round Score</th>
                 </tr>
               </thead>
               <tbody>

@@ -36,6 +36,9 @@ function App() {
         setIsModalOpen={setIsModalOpen}
         isGameInProgress={isGameInProgress}
         setIsGameInProgress={setIsGameInProgress}
+        players={players}
+        setPlayers={setPlayers}
+        setGameDetails={setGameDetails}
       />
       {!isGameInProgress ? (
         <Setup
