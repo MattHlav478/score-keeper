@@ -43,6 +43,14 @@ export default function Scorekeeper({
       });
   }, [players, gameDetails]);
 
+  useEffect(() => {
+    document.documentElement.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant", // Optional if you want to skip the scrolling animation
+    });
+  }, []);
+
   function handleScoreInputChange(playerIndex, event) {
     const updatedScores = [...currentRoundScores];
     updatedScores[playerIndex] = Number(event.target.value);

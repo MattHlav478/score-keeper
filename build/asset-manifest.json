@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/score-keeper/static/css/main.e92e7474.css",
-    "main.js": "/score-keeper/static/js/main.4fb90584.js",
+    "main.css": "/score-keeper/static/css/main.32e74af1.css",
+    "main.js": "/score-keeper/static/js/main.40da5694.js",
     "static/js/787.89447f4f.chunk.js": "/score-keeper/static/js/787.89447f4f.chunk.js",
+    "static/media/github-logo.png": "/score-keeper/static/media/github-logo.790a52214b7f20825a1a.png",
     "index.html": "/score-keeper/index.html",
-    "main.e92e7474.css.map": "/score-keeper/static/css/main.e92e7474.css.map",
-    "main.4fb90584.js.map": "/score-keeper/static/js/main.4fb90584.js.map",
+    "main.32e74af1.css.map": "/score-keeper/static/css/main.32e74af1.css.map",
+    "main.40da5694.js.map": "/score-keeper/static/js/main.40da5694.js.map",
     "787.89447f4f.chunk.js.map": "/score-keeper/static/js/787.89447f4f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e92e7474.css",
-    "static/js/main.4fb90584.js"
+    "static/css/main.32e74af1.css",
+    "static/js/main.40da5694.js"
   ]
 }
