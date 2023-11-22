@@ -142,7 +142,7 @@ export default function Scorekeeper({
 
   return (
     <div className="flex flex-row justify-center w-full ">
-      <div className="flex flex-col m-2 h-screen sm:w-1/3 text-lg">
+      <div className="flex flex-col m-2 h-screen w-full sm:w-1/3 text-lg">
         {gameDetails.currentRound <= gameDetails.totalRounds ||
         !finalRoundSubmitted ? (
           <>
@@ -155,11 +155,11 @@ export default function Scorekeeper({
                   : ` of ${gameDetails.totalRounds}`}
               </div>
             </header>
-            <table className="self-center w-1/2">
+            <table className="self-center w-3/4">
               <thead>
                 <tr className="border p-2">
                   <th className="border p-2">Player</th>
-                  <th className="border p-2">Round Score</th>
+                  <th className="border p-2 w-2/5">Round Score</th>
                 </tr>
               </thead>
               <tbody>
@@ -208,11 +208,11 @@ export default function Scorekeeper({
         )}
         <div className="flex flex-col pt-20">
           <header className="self-center pb-2">Game Summary</header>
-          <table className="self-center w-1/2">
+          <table className="self-center w-3/4">
             <thead>
               <tr className="border p-2">
                 <th className="border p-2">Player</th>
-                <th className="border p-2">Total Score</th>
+                <th className="border p-2 w-2/5">Total Score</th>
               </tr>
             </thead>
             <tbody>
