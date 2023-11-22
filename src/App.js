@@ -5,31 +5,29 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 function App() {
-  const [players, setPlayers] = useState([
-    // {
-    //   name: "Becky",
-    //   scores: [],
-    // },
-    // {
-    //   name: "John",
-    //   scores: [],
-    // },
-  ]);
+  const [players, setPlayers] = useState(
+    JSON.parse(localStorage.getItem("players")) || []
+  );
 
-  const [gameDetails, setGameDetails] = useState({
-    gameName: "",
-    allPlayers: players,
-    totalPlayers: players.length,
-    totalRounds: 0,
-    currentRound: 1,
-  });
+  const [gameDetails, setGameDetails] = useState(
+    JSON.parse(localStorage.getItem("gameDetails")) || {
+      gameName: "",
+      allPlayers: players,
+      totalPlayers: players.length,
+      totalRounds: 0,
+      currentRound: 1,
+    }
+  );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGameInProgress, setIsGameInProgress] = useState(false);
 
-  // useEffect(() => {
-  //   console.log("game details:", gameDetails);
-  // }, [gameDetails]);
+  useEffect(() => {
+    let gameProgress = localStorage.getItem("isGameInProgress");
+    if (gameProgress === "true") {
+      setIsGameInProgress(true);
+    }
+  }, []);
 
   return (
     <>

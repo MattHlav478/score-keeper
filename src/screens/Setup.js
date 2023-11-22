@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Modal from "../components/Modal";
+import { is } from "@babel/types";
 
 export default function Setup({
   players,
@@ -23,17 +24,16 @@ export default function Setup({
   const roundsInputRef = useRef();
   const gameNameInputRef = useRef();
 
-  useEffect(() => {
-    localStorage.clear();
-    setPlayers([]);
-    setGameDetails({
-      gameName: "",
-      allPlayers: players,
-      totalPlayers: players.length,
-      totalRounds: 0,
-      currentRound: 1,
-    });
-  }, []);
+  // useEffect(() => {
+  //   setPlayers([]);
+  //   setGameDetails({
+  //     gameName: "",
+  //     allPlayers: players,
+  //     totalPlayers: players.length,
+  //     totalRounds: 0,
+  //     currentRound: 1,
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -117,6 +117,10 @@ export default function Setup({
       // localStorage.setItem("gameDetails", JSON.stringify(gameDetails));
       // localStorage.setItem("players", JSON.stringify(players));
       setIsGameInProgress(true);
+      localStorage.setItem(
+        "isGameInProgress",
+        JSON.stringify(isGameInProgress)
+      );
     }
   }
 
@@ -125,129 +129,133 @@ export default function Setup({
   }
 
   return (
-    <div className="flex flex-col m-2 h-screen text-lg">
-      <div className="flex flex-col h-28 p-4">
-        <div className="py-2">Enter Game Name:</div>
-        <input
-          type="text"
-          id="game-name"
-          name="game-name"
-          ref={gameNameInputRef}
-          value={gameName}
-          onChange={handleGameNameChange}
-          className="bg-gray-200 border-2 border-solid rounded-lg border-violet-600 p-2 text-black"
-          placeholder="Game Name"
-        />
-        {alertGameNameError && (
-          <div className="text-red-500">Game name cannot be blank</div>
-        )}
-      </div>
-      <button
-        onClick={handleSubmitGameName}
-        className="bg-violet-600 self-center font-bold rounded-lg w-36 p-2 mt-4"
-      >
-        Submit
-      </button>
-      <div className="flex flex-col h-28 p-4">
-        <div className="py-2">Enter Player Name:</div>
-        <input
-          type="text"
-          id="player-name"
-          name="player-name"
-          value={playerName}
-          onChange={handlePlayerNameChange}
-          className="bg-gray-200 border-2 border-solid rounded-lg border-violet-600 p-2 text-black"
-          placeholder="Player Name"
-        />
-        {alertPlayerNameError && (
-          <div className="text-red-500">Player name cannot be blank</div>
-        )}
-      </div>
-      <button
-        className="bg-violet-600 self-center font-bold rounded-lg w-36 p-2 mt-4"
-        onClick={addPlayer}
-      >
-        Add Player
-      </button>
-
-      <div className="flex flex-col p-4">
-        <div className="self-center p-4 text-2xl font-bold">GAME DETAILS</div>
-        <div className="text-xl pb-2">
-          Game:{" "}
-          <span className="font-bold">
-            {gameDetails.gameName === "" ? "Untitled" : gameDetails.gameName}
-          </span>
+    <div className="flex flex-row justify-center w-full ">
+      <div className="flex flex-col m-2 h-screen sm:w-1/3 text-lg">
+        {localStorage.getItem("gameDetails") && <div>Continue?</div>}
+        <div className="flex flex-col h-28 p-4">
+          <div className="py-2">Enter Game Name:</div>
+          <input
+            type="text"
+            id="game-name"
+            name="game-name"
+            ref={gameNameInputRef}
+            value={gameName}
+            onChange={handleGameNameChange}
+            className="bg-gray-200 border-2 border-solid rounded-lg border-violet-600 p-2 text-black"
+            placeholder="Game Name"
+          />
+          {alertGameNameError && (
+            <div className="text-red-500">Game name cannot be blank</div>
+          )}
         </div>
-        <div className="text-xl pb-2">
-          # of Rounds:{" "}
-          <span className="font-bold">
-            {gameDetails.totalRounds === 0
-              ? "Unlimited"
-              : gameDetails.totalRounds}
-          </span>
-          <span className="pl-4">
-            <button
-              className="bg-violet-600 self-center font-bold w-20 rounded-lg"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Edit
-            </button>
-          </span>
+        <button
+          onClick={handleSubmitGameName}
+          className="bg-violet-600 self-center font-bold rounded-lg w-36 p-2 mt-4"
+        >
+          Submit
+        </button>
+        <div className="flex flex-col h-28 p-4">
+          <div className="py-2">Enter Player Name:</div>
+          <input
+            type="text"
+            id="player-name"
+            name="player-name"
+            value={playerName}
+            onChange={handlePlayerNameChange}
+            className="bg-gray-200 border-2 border-solid rounded-lg border-violet-600 p-2 text-black"
+            placeholder="Player Name"
+          />
+          {alertPlayerNameError && (
+            <div className="text-red-500">Player name cannot be blank</div>
+          )}
         </div>
-        {players.length >= 1 && (
-          <div className="text-xl border-b-2 border-violet-500">Players:</div>
-        )}
-        {players.map((player, i) => (
-          <div
-            key={i}
-            className="flex flex-row w-full justify-between border-b-2 border-violet-500"
-          >
-            <div className="flex flex-row justify-between">
-              <div className="self-center pr-4">{i + 1} )</div>
-              <div className="self-center">{player.name}</div>
-            </div>
+        <button
+          className="bg-violet-600 self-center font-bold rounded-lg w-36 p-2 mt-4"
+          onClick={addPlayer}
+        >
+          Add Player
+        </button>
 
-            <button
-              className="p-2 my-2 bg-violet-800 rounded-lg"
-              onClick={() => removePlayer(i)}
-            >
-              Remove
-            </button>
+        <div className="flex flex-col p-4">
+          <div className="self-center p-4 text-2xl font-bold">GAME DETAILS</div>
+          <div className="text-xl pb-2">
+            Game:{" "}
+            <span className="font-bold">
+              {gameDetails.gameName === "" ? "Untitled" : gameDetails.gameName}
+            </span>
           </div>
-        ))}
-      </div>
-      <Modal isOpen={isModalOpen} closeModal={closeModal}>
-        <div className="flex flex-col mx-auto">
-          <div>Specify Number of Rounds</div>
-
-          <div className="flex mx-auto">
-            <input
-              type="number"
-              inputMode="numeric"
-              id="number-rounds"
-              name="number-rounds"
-              ref={roundsInputRef}
-              className="self-center opacity-100 w-10 text-center bg-gray-200 border-2 border-solid rounded-lg border-violet-600 text-black"
-              placeholder="#"
-            />
-            <div className="pl-4">
+          <div className="text-xl pb-2">
+            # of Rounds:{" "}
+            <span className="font-bold">
+              {gameDetails.totalRounds === 0
+                ? "Unlimited"
+                : gameDetails.totalRounds}
+            </span>
+            <span className="pl-4">
               <button
-                className=" my-2 h-8 w-20 bg-violet-600 text-white rounded-lg"
-                onClick={handleSetRounds}
+                className="bg-violet-600 self-center font-bold w-20 rounded-lg"
+                onClick={() => setIsModalOpen(true)}
               >
-                Set
+                Edit
+              </button>
+            </span>
+          </div>
+          {players.length >= 1 && (
+            <div className="text-xl border-b-2 border-violet-500">Players:</div>
+          )}
+          {players.map((player, i) => (
+            <div
+              key={i}
+              className="flex flex-row w-full justify-between border-b-2 border-violet-500"
+            >
+              <div className="flex flex-row justify-between">
+                <div className="self-center pr-4">{i + 1} )</div>
+                <div className="self-center">{player.name}</div>
+              </div>
+
+              <button
+                className="p-2 my-2 bg-violet-800 rounded-lg"
+                onClick={() => removePlayer(i)}
+              >
+                Remove
               </button>
             </div>
-          </div>
+          ))}
         </div>
-      </Modal>
-      <div className="h-full flex flex-col mx-auto pb-20">
-        <button
-          className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-200 text-violet-600 border-2 border-solid border-violet-600"
-          onClick={handleStartGame}
-        >
-          Start Game
-        </button>
+        <Modal isOpen={isModalOpen} closeModal={closeModal}>
+          <div className="flex flex-col mx-auto">
+            <div>Specify Number of Rounds</div>
+
+            <div className="flex mx-auto">
+              <input
+                type="number"
+                inputMode="numeric"
+                id="number-rounds"
+                name="number-rounds"
+                ref={roundsInputRef}
+                className="self-center opacity-100 w-10 text-center bg-gray-200 border-2 border-solid rounded-lg border-violet-600 text-black"
+                placeholder="#"
+                min={-1}
+              />
+              <div className="pl-4">
+                <button
+                  className=" my-2 h-8 w-20 bg-violet-600 text-white rounded-lg"
+                  onClick={handleSetRounds}
+                >
+                  Set
+                </button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+        <div className="h-full flex flex-col mx-auto pb-20">
+          <button
+            className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-200 text-violet-600 border-2 border-solid border-violet-600"
+            onClick={handleStartGame}
+          >
+            Start Game
+          </button>
+        </div>
       </div>
     </div>
   );
