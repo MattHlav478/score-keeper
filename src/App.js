@@ -16,6 +16,7 @@ function App() {
       totalPlayers: players.length,
       totalRounds: 0,
       currentRound: 1,
+      finalScore: 0,
     }
   );
 

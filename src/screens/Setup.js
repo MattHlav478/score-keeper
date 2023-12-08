@@ -10,8 +10,6 @@ export default function Setup({
   setGameDetails,
   isModalOpen,
   setIsModalOpen,
-  isGameInProgress,
-  setIsGameInProgress,
   alertGameNameError,
   setAlertGameNameError,
   alertPlayerNameError,
@@ -19,8 +17,10 @@ export default function Setup({
 }) {
   const [gameName, setGameName] = useState("");
   const [playerName, setPlayerName] = useState("");
+  const [modalDisplay, setModalDisplay] = useState(null);
 
   const roundsInputRef = useRef();
+  const finalScoreInputRef = useRef();
   const gameNameInputRef = useRef();
 
   useEffect(() => {
@@ -103,6 +103,18 @@ export default function Setup({
     }
   }
 
+  function handleSetFinalScore() {
+    const finalScoreValue = Number(finalScoreInputRef.current.value);
+    if (finalScoreValue === 0) {
+      return;
+    } else {
+      setGameDetails((prevDetails) => ({
+        ...prevDetails,
+        finalScore: finalScoreValue,
+      }));
+      closeModal();
+    }
+  }
   function closeModal() {
     setIsModalOpen(false);
   }
@@ -174,7 +186,29 @@ export default function Setup({
             <span className="pl-4">
               <button
                 className="bg-violet-600 self-center font-bold w-20 rounded-lg"
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => {
+                  setModalDisplay("rounds");
+                  setIsModalOpen(true);
+                }}
+              >
+                Edit
+              </button>
+            </span>
+          </div>
+          <div className="text-xl pb-2">
+            Final Score: {""}
+            <span className="font-bold">
+              {gameDetails.finalScore === 0
+                ? "Unlimited"
+                : gameDetails.finalScore}
+            </span>
+            <span className="pl-4">
+              <button
+                className="bg-violet-600 self-center font-bold w-20 rounded-lg"
+                onClick={() => {
+                  setModalDisplay("finalScore");
+                  setIsModalOpen(true);
+                }}
               >
                 Edit
               </button>
@@ -203,7 +237,8 @@ export default function Setup({
           ))}
         </div>
         <Modal isOpen={isModalOpen} closeModal={closeModal}>
-          <div className="flex flex-col mx-auto">
+          {
+            modalDisplay === "rounds" ? (<div className="flex flex-col mx-auto">
             <div>Specify Number of Rounds</div>
 
             <div className="flex mx-auto">
@@ -226,7 +261,33 @@ export default function Setup({
                 </button>
               </div>
             </div>
+            </div>) : (
+                <div className="flex flex-col mx-auto">
+            <div>Specify Final Score Required to Win</div>
+
+            <div className="flex mx-auto">
+              <input
+                type="number"
+                inputMode="numeric"
+                id="number-final-score"
+                name="number-final-score"
+                ref={finalScoreInputRef}
+                className="self-center opacity-100 w-10 text-center bg-gray-200 border-2 border-solid rounded-lg border-violet-600 text-black"
+                placeholder="#"
+                min={1}
+              />
+              <div className="pl-4">
+                <button
+                  className=" my-2 h-8 w-20 bg-violet-600 text-white rounded-lg"
+                  onClick={handleSetFinalScore}
+                >
+                  Set
+                </button>
+              </div>
+            </div>
           </div>
+          )
+          }
         </Modal>
       </div>
     </div>
