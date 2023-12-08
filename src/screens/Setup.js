@@ -73,7 +73,6 @@ export default function Setup({
       setAlertPlayerNameError(false);
     }
     setPlayerName(event.target.value);
-    console.log(event.target.value);
   }
 
   function addPlayer(event) {
@@ -93,7 +92,6 @@ export default function Setup({
         scores: [],
       };
       setPlayers([...players, newPlayer]);
-      console.log(players);
       setPlayerName("");
     }
   }

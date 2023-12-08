@@ -31,9 +31,9 @@ export default function Scorekeeper({
 
   useEffect(() => {
     saveToLocalStorage()
-      .then(() => {
-        console.log("Data saved to local storage");
-      })
+      // .then(() => {
+      //   console.log("Data saved to local storage");
+      // })
       .catch((error) => {
         console.error("Error saving data to local storage:", error);
       });
@@ -136,10 +136,10 @@ export default function Scorekeeper({
         {!finalRoundSubmitted ? (
           <>
             <header className="flex flex-col self-center">
-              <div className="text-2xl font-bold self-center">
+              <div className="text-2xl font-bold">
                 {gameDetails.gameName}
               </div>
-              <div className="pb-2">
+              <div className="pb-2 text-center">
                 Round {gameDetails.currentRound}
                 {gameDetails.totalRounds === 0
                   ? null
@@ -168,15 +168,15 @@ export default function Scorekeeper({
                       <div className="flex flex-row w-full pt-1">
                         <button
                           className="w-1/2 bg-violet-600 m-1 rounded-lg"
-                          onClick={() => incrementScore(i)}
-                        >
-                          +
-                        </button>
-                        <button
-                          className="w-1/2 bg-violet-600 m-1 rounded-lg"
                           onClick={() => decrementScore(i)}
                         >
                           -
+                        </button>
+                        <button
+                          className="w-1/2 bg-violet-600 m-1 rounded-lg"
+                          onClick={() => incrementScore(i)}
+                        >
+                          +
                         </button>
                       </div>
                     </td>
