@@ -22,6 +22,11 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGameInProgress, setIsGameInProgress] = useState(false);
 
+  // Errors
+  const [alertPlayerNameError, setAlertPlayerNameError] = useState(false);
+  const [alertGameNameError, setAlertGameNameError] = useState(false);
+  const [alertRoundSetError, setAlertRoundSetError] = useState(false);
+
   useEffect(() => {
     let gameProgress = localStorage.getItem("isGameInProgress");
     if (gameProgress === "true") {
@@ -40,7 +45,12 @@ function App() {
         setIsGameInProgress={setIsGameInProgress}
         players={players}
         setPlayers={setPlayers}
+        gameDetails={gameDetails}
         setGameDetails={setGameDetails}
+        alertGameNameError={alertGameNameError}
+        setAlertGameNameError={setAlertGameNameError}
+        alertPlayerNameError={alertPlayerNameError}
+        setAlertPlayerNameError={setAlertPlayerNameError}
       />
       {!isGameInProgress ? (
         <Setup
@@ -52,6 +62,10 @@ function App() {
           setIsModalOpen={setIsModalOpen}
           isGameInProgress={isGameInProgress}
           setIsGameInProgress={setIsGameInProgress}
+          alertGameNameError={alertGameNameError}
+          setAlertGameNameError={setAlertGameNameError}
+          alertPlayerNameError={alertPlayerNameError}
+          setAlertPlayerNameError={setAlertPlayerNameError}
         />
       ) : (
         <Scorekeeper

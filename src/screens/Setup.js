@@ -12,28 +12,16 @@ export default function Setup({
   setIsModalOpen,
   isGameInProgress,
   setIsGameInProgress,
+  alertGameNameError,
+  setAlertGameNameError,
+  alertPlayerNameError,
+  setAlertPlayerNameError,
 }) {
   const [gameName, setGameName] = useState("");
   const [playerName, setPlayerName] = useState("");
 
-  // Errors
-  const [alertPlayerNameError, setAlertPlayerNameError] = useState(false);
-  const [alertGameNameError, setAlertGameNameError] = useState(false);
-  const [alertRoundSetError, setAlertRoundSetError] = useState(false);
-
   const roundsInputRef = useRef();
   const gameNameInputRef = useRef();
-
-  // useEffect(() => {
-  //   setPlayers([]);
-  //   setGameDetails({
-  //     gameName: "",
-  //     allPlayers: players,
-  //     totalPlayers: players.length,
-  //     totalRounds: 0,
-  //     currentRound: 1,
-  //   });
-  // }, []);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -112,25 +100,6 @@ export default function Setup({
         totalRounds: roundsValue,
       }));
       closeModal();
-    }
-  }
-
-  function handleStartGame() {
-    if (gameDetails.gameName === "") {
-      setAlertGameNameError(true);
-    }
-    if (players.length === 0) {
-      setAlertPlayerNameError(true);
-      alert("Must have at least one player");
-      return;
-    } else {
-      // localStorage.setItem("gameDetails", JSON.stringify(gameDetails));
-      // localStorage.setItem("players", JSON.stringify(players));
-      setIsGameInProgress(true);
-      localStorage.setItem(
-        "isGameInProgress",
-        JSON.stringify(isGameInProgress)
-      );
     }
   }
 
@@ -259,14 +228,6 @@ export default function Setup({
             </div>
           </div>
         </Modal>
-        <div className="h-full flex flex-col mx-auto pb-20">
-          <button
-            className="font-bold rounded-lg w-36 p-2 mt-4 bg-violet-200 text-violet-600 border-2 border-solid border-violet-600"
-            onClick={handleStartGame}
-          >
-            Start Game
-          </button>
-        </div>
       </div>
     </div>
   );
