@@ -12,12 +12,34 @@ export default function Header({
   setIsGameInProgress,
   players,
   setPlayers,
+  gameDetails,
   setGameDetails,
+  setAlertGameNameError,
+  setAlertPlayerNameError
 }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   function closeModal() {
     setIsNavOpen(false);
+  }
+
+  function handleStartGame() {
+    if (gameDetails.gameName === "") {
+      setAlertGameNameError(true);
+    }
+    if (players.length === 0) {
+      setAlertPlayerNameError(true);
+      alert("Must have at least one player");
+      return;
+    } else {
+      // localStorage.setItem("gameDetails", JSON.stringify(gameDetails));
+      // localStorage.setItem("players", JSON.stringify(players));
+      setIsGameInProgress(true);
+      localStorage.setItem(
+        "isGameInProgress",
+        JSON.stringify(isGameInProgress)
+      );
+    }
   }
 
   function handleNewGame() {
@@ -45,11 +67,11 @@ export default function Header({
   }
 
   return (
-    <div className="sticky top-0 w-full flex items-center justify-between h-16 py-2 px-6 bg-slate-800 border-b-2 border-violet-400">
+    <div className="sticky top-0 w-full flex items-center justify-between h-16 px-4 bg-slate-800 border-b-2 border-violet-400">
       <p href="/" className="text-2xl font-bold text-violet-400">
         ScoreKeeper
       </p>
-      {isGameInProgress && (
+      {isGameInProgress ? (
         <div onClick={() => setIsNavOpen(true)}>
           <FontAwesomeIcon
             icon={faEllipsis}
@@ -57,7 +79,14 @@ export default function Header({
             style={{ color: "#a78bfa" }}
           />
         </div>
-      )}
+      ) : (<div className="h-full flex flex-col justify-center">
+          <button
+            className="font-bold rounded-lg w-36 p-2 bg-violet-200 text-violet-600 border-2 border-solid border-violet-600"
+            onClick={handleStartGame}
+          >
+            Start Game
+          </button>
+        </div>)}
       <Modal isOpen={isNavOpen} closeModal={closeModal}>
         <div className="flex flex-col mx-auto">
           <div>New Game?</div>
