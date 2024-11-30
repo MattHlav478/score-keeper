@@ -163,6 +163,7 @@ export default function Scorekeeper({
                         inputMode="numeric"
                         value={currentRoundScores[i]}
                         className="w-full bg-violet-300 text-black text-center"
+                        onFocus={(event) => event.target.select()}
                         onChange={(event) => handleScoreInputChange(i, event)}
                       ></input>
                       <div className="flex flex-row w-full pt-1">
